@@ -1,6 +1,7 @@
 {
   "entryPoints": [
-    "./src/note.ts"
+    "./src/note.ts",
+    "./src/collection.ts"
   ],
   "out": "./typeDocs"
 }
