@@ -22,6 +22,8 @@ En el caso de listar las diferentes notas y leerlas no entiendo qué es lo que s
 ## 5. Conclusiones y dificultades
 A modo de conclusión, me ha resultado muy interesante la práctica para poner en práctica la interacción por línea de comandos. Tras leer la documentación aportada en el guión de la práctica sobre los diferentes paquetes necesarios para su realización, no se me ha presentado ninguna dificultad. Por último, he generado la documentación en HTML mediante TypeDoc y he realizado las respectivas pruebas unitarias. Además, he includo el flujo de trabajo de GitHub Actions para llevar a cabo las pruebas en diferentes entornos con diferentes versiones de Node.js, enviar los datos de cubrimiento a Coveralls, así como realizar un análisis de la calidad y seguridad del código fuente a través de Sonar Cloud.
 
+[![Coverage Status](https://coveralls.io/repos/github/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/badge.svg?branch=master)](https://coveralls.io/github/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe?branch=master)
+
 ## 6. Referencias
 1. [Guión práctica 8](https://campusingenieriaytecnologia.ull.es/mod/assign/view.php?id=290092)
 2. [Yargs](https://www.npmjs.com/package/yargs)

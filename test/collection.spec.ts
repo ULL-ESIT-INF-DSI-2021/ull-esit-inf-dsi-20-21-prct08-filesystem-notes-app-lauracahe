@@ -7,13 +7,7 @@ import {Collection} from '../src/collection'
 describe('Test block class Collection', () => {
   const note1 = new Note('Primera nota', 'Soy la primera', 'blue');
   const note2 = new Note('Segunda nota', 'Soy la segunda', 'yellow');
-  const note3 = new Note('Tercera nota', 'Soy la tercera', 'green');
   const note4 = new Note('Cuarta nota', 'Soy la cuarta', 'red');
-
-  let collection: Note[];
-  collection.push(note1);
-  collection.push(note2);
-  collection.push(note3);
 
   const myObject = new Collection('Laura');
 
