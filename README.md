@@ -15,6 +15,9 @@ Cabe destacar que solo se podrá interactuar con la aplicación desde la línea 
 ## 3. Desarrollo del proyecto
 
 ## 4. Ejemplos de uso de la aplicación
+![Error al cargar la imagen del ejemplo]()
+
+En el caso de listar las diferentes notas y leerlas no entiendo qué es lo que sucede ya que, en ocasiones muestra y lista todas las notas de la carpeta del respectivo usuario, sin embargo, hay veces que no lo hace y muestra un "undefined". Detallar que sigo el mismo procedimiento que en los demás comandos. 
 
 ## 5. Conclusiones y dificultades
 A modo de conclusión, me ha resultado muy interesante la práctica para poner en práctica la interacción por línea de comandos. Tras leer la documentación aportada en el guión de la práctica sobre los diferentes paquetes necesarios para su realización, no se me ha presentado ninguna dificultad. Por último, he generado la documentación en HTML mediante TypeDoc y he realizado las respectivas pruebas unitarias. Además, he includo el flujo de trabajo de GitHub Actions para llevar a cabo las pruebas en diferentes entornos con diferentes versiones de Node.js, enviar los datos de cubrimiento a Coveralls, así como realizar un análisis de la calidad y seguridad del código fuente a través de Sonar Cloud.
