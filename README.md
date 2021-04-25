@@ -13,7 +13,27 @@ Cabe destacar que solo se podrá interactuar con la aplicación desde la línea 
 
 
 ## 3. Desarrollo del proyecto
+En primer lugar, la clase note es muy sencilla. Se encarga de crear las notas con un título, cuerpo y color con el constructor de la clase y luego consta de varios métodos que se encargan de obtener las propiedades privadas de dicho objeto de la clase. También tiene un método print para imprimir los datos de la nota en conjunto.
 
+![Error al cargar la imagen de la clase nota](https://raw.githubusercontent.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/master/images/note.png)
+
+En cuanto a la clase collection, consta de varios métodos para modificar a las diferentes notas. Esta clase crea un objeto a partir de un nombre de usuario, el cual puede añadir una nota a su colleción, borrarla, modificarla, leer los títulos de todas sus notas o simplemente leer una en concreto. 
+
+En primer lugar, el método findNote simplemente busca si existe en la colección una nota con el título pasado por parámetro. En caso de que lo encuentre, devuelve true ya que retorna un valor booleano. Le sigue la función addNote, la cual se encarga de añadir una nueva nota a la colección. Primero, se asegura de que no existe una nota con el mismo título y luego la añade con un formato .json. Destacar que, los mensajes de error se visualizan en color rojo, y los de control en color verde. 
+
+El método modifyNote recibe por parámetro el título, el nuevo cuerpo de la nota y un color. Primero, se asegura de que exista una nota con dicho título para luego proceder a modificar el cuerpo de la misma. 
+
+En cuanto al método remove, elimina la nota con el título especificado por parámetro mediante el uso del comando rm. También se listan y leen las notas con otro dos métodos muy similares, los cuales imprimer por pantalla haciendo uso de los métodos de la clase note la información deseada. 
+
+![Error al cargar la imagen](https://raw.githubusercontent.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/master/images/collection1.png)
+
+![Error al cargar la imagen](https://raw.githubusercontent.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/master/images/collection2.png)
+
+Por último, el index se encarga de realizar la interacción por línea de comando con el usuario. Haciendo uso de los paquetes que detalla la práctica __Yargs__ y __Chalk__ se permite pasar varios argumentos por línea de comando. Todos llevan el mismo procedimiento. Se detalla que es un comando con su nombre correspondiente de uso, una pequeña descripción y los diferentes parámetros que conlleva la acción. Luego, a la función __handler__ se le pasan los argumentos que va a recibir por línea de comando y se comprueba que tengan el mismo tipo (string). Por último, dependiendo del comando, se procede a hacer uso de los métodos de la clase collection para realizar las acciones listar los títulos de las notas, borrar una de ellas, etc. 
+
+![Error al cargar la imagen](https://raw.githubusercontent.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/master/images/index1.png)
+
+![Error al cargar la imagen](https://raw.githubusercontent.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/master/images/index2.png)
 
 
 ## 4. Ejemplos de uso de la aplicación
