@@ -78,10 +78,10 @@ export class Collection {
    * @brief List all titles of the note colecction
    */
   titles() {
-    if(existsSync(`./${this.userName}`)) {
-      let files = readdirSync(`./${this.userName}`);
-      for(let i = 0; i < files.length; i++) {
-        readFile(`./${this.userName}/${files[i]}`, (err, data) => {
+    if (existsSync(`./${this.userName}`)) {
+      let docs = readdirSync(`./${this.userName}`);
+      docs.forEach((doc) => {
+        readFile(`./${this.userName}/${doc}`, (err, data) => {
           if(!err) {
             const aux = JSON.parse(data.toString());
             switch (aux.colour) {
@@ -101,10 +101,10 @@ export class Collection {
                 console.log(aux.title);
             }
           } else {
-            console.log(chalk.red('Error al leer el fichero'));
-            }
+            console.log(chalk.red('Error de lectura del fichero'));
+          }
         });
-      }
+      });
     }
   }
 
