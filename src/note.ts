@@ -11,7 +11,7 @@ export class Note {
    * @param body body of the note
    * @param colour colour
    */
-  constructor(private title: string, private body: string, private colour: ('red' | 'green' | 'blue' | 'yellow')) {}
+  constructor(private title: string, private body: string, private colour: string) {}
 
   /**
    * @brief Print note according to the color
@@ -37,6 +37,7 @@ export class Note {
 
   /**
    * @brief Get title of the note
+   * @return string with the title
    */
   getTitle(): string {
     return this.title;
@@ -44,6 +45,7 @@ export class Note {
 
   /**
    * @brief Get body of the note
+   * @brief string with the body
    */
   getBody(): string {
     return this.body;
@@ -51,6 +53,7 @@ export class Note {
 
   /**
    * @brief Get colour of the note
+   * @return colour
    */
   getColour(): string {
     return this.colour;

@@ -32,6 +32,7 @@
       "arrow-parens": "off",
       "brace-style": "off",
       "semi": "off",
-      "linebreak-style": "off"
+      "linebreak-style": "off",
+      "operator-linebreak": "off"
   }
 }

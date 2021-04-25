@@ -2,7 +2,7 @@ import 'mocha';
 import {expect} from 'chai';
 
 import {Note} from '../src/note'; 
-import {Collection} from '../src/Collection'
+import {Collection} from '../src/collection'
 
 describe('Test block class Collection', () => {
   const note1 = new Note('Primera nota', 'Soy la primera', 'blue');
@@ -15,7 +15,7 @@ describe('Test block class Collection', () => {
   collection.push(note2);
   collection.push(note3);
 
-  const myObject = new Collection('Laura', collection);
+  const myObject = new Collection('Laura');
 
   it('findNote in the collection', () => {
     expect(myObject.findNote(note1.getTitle()));
@@ -26,7 +26,7 @@ describe('Test block class Collection', () => {
   });
 
   it('modifyNote of the collection', () => {
-    expect(myObject.modifyNote(note4.getTitle(), 'He sido modificada'));
+    expect(myObject.modifyNote(note4.getTitle(), 'He sido modificada', 'red'));
   });
 
   it('removeNote of the collection', () => {

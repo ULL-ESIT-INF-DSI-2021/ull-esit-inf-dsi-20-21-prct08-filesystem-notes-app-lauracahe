@@ -1,5 +1,8 @@
 import {Note} from './note';
-import * as chalk from 'chalk';
+import {spawn} from 'child_process';
+import {readFile, writeFile} from 'fs';
+
+const chalk = require('chalk');
 
 /**
  * @brief Collection class
@@ -9,17 +12,21 @@ export class Collection {
    * 
    * @brief Collection constructor
    * @param userName User name
-   * @param notecollection Note collection
    */
-  constructor(private userName: string, private notecollection: Note[]) {}
+  constructor(private userName: string) {}
 
   /**
    * @brief Look for a note with the same title passed as a parameter, if found, it returns true
    * @param title Title of the note
+   * @return boolean
    */
   findNote(title: string): boolean {
-    for(let i = 0; i < this.notecollection.length; i++){
-      if(this.notecollection[i].getTitle() === title){
+    let output: string = '';
+    let ls = spawn('ls', [`./${this.userName}`]);
+    ls.stdout.on('data', (data) => output += data);
+    let split = output.split(/\s+/);
+    for(let i = 0; i < split.length; i++){
+      if(split[i] == `${title}.json`){
         return true;
       }
     }
@@ -32,11 +39,13 @@ export class Collection {
    * @param newNote New note
    */
   addNote(newNote: Note) {
-    if (!this.findNote(newNote.getTitle())) {
-      this.notecollection.push(newNote);
-      console.log(chalk.green('Nota añadida a la colección'));
-    } 
-    else {
+    if(!this.findNote(newNote.getTitle())) {
+      writeFile(`./${this.userName}/${newNote.getTitle()}.json`, `{\n${newNote.getNote()}\n}`, (err) => {
+            if(!err) {
+              console.log(chalk.green('Nota añadida'));
+            } 
+          });
+    } else {
       console.log(chalk.red('Existe una nota con el mismo título'));
     }
   }
@@ -46,15 +55,18 @@ export class Collection {
    * @brief Modify a note of the collection
    * @param title Title of the note
    * @param newText New text to change
+   * @param colour Colour of the note
    */
-  modifyNote(title: string, newText: string) {
-    for(let i = 0; i < this.notecollection.length; i++) {
-      if(this.notecollection[i].getTitle() === title) {
-        this.notecollection[i].change(newText);
-        console.log(chalk.green('Nota modificada'));
-      }
-    } 
-    console.log(chalk.red('No existe una nota con este título'));
+  modifyNote(title: string, newText: string, colour: string) {
+    if(this.findNote(title)) {
+      writeFile(`./${this.userName}/${title}.json`, `{\ntitle: ${title}\nbody: ${newText}\ncolour: ` + `${colour}\n}`, (err) => {
+            if(!err) {
+              console.log(chalk.green('Nota modificada'));
+            }
+          });
+    } else {
+      console.log(chalk.red('No existe una nota con este título'));
+    }
   }
 
   /**
@@ -63,63 +75,84 @@ export class Collection {
    * @param title Title of the note to remove
    */
   removeNote(title: string) {
-    for(let i = 0; i < this.notecollection.length; i++) {
-      if(this.notecollection[i].getTitle() === title) {
-        this.notecollection.splice(i, 1);
-        console.log(chalk.green('Nota eliminada'));
-      } 
-    }
+    if(this.findNote(title)) {
+      spawn('rm', [`./${this.userName}/${title}.json`]);
+      console.log(chalk.green('Se ha eliminado la nota'));
+    } else {
     console.log(chalk.red('No existe una nota con este título'));
+    }
   }
 
   /**
    * @brief List all titles of the note colecction
    */
   titles() {
-    this.notecollection.forEach((note) => {
-      switch (note.getColour()) {
-        case 'red':
-          console.log(chalk.red(note.getTitle()));
-          break;
-        case 'green':
-          console.log(chalk.green(note.getTitle()));
-          break;
-        case 'blue':
-          console.log(chalk.blue(note.getTitle()));
-          break;
-        case 'yellow':
-          console.log(chalk.yellow(note.getTitle()));
-          break;
-        default:
-          console.log(note.getTitle());
-      }
-    });
+    let output: string = '';
+    let ls = spawn('ls', [`./${this.userName}`]);
+    ls.stdout.on('data', (data) => output += data);
+    let split = output.split(/\s+/);
+    for(let i = 0; i < split.length; i++) {
+      readFile(`./${this.userName}/${split[i]}`, (err, data) => {
+        if(!err) {
+          const d = JSON.parse(data.toString());
+          switch (d.colour) {
+            case 'red':
+              console.log(chalk.red(d.title));
+              break;
+            case 'green':
+              console.log(chalk.green(d.title));
+              break;
+            case 'blue':
+              console.log(chalk.blue(d.title));
+              break;
+            case 'yellow':
+              console.log(chalk.yellow(d.title));
+              break;
+            default:
+              console.log(d.title);
+          }
+        }
+      });
+    }
+    console.log(chalk.red('Error de lectura del fichero'));
   }
 
   /**
    * @brief Read a note of the collection
    */
   readNote(title: string) {
-    for(let i = 0; i < this.notecollection.length; i++){
-      if(this.notecollection[i].getTitle() === title) {
-        switch (this.notecollection[i].getColour()) {
-          case 'red':
-            console.log(chalk.red(this.notecollection[i].getNote()));
-            break;
-          case 'green':
-            console.log(chalk.green(this.notecollection[i].getNote()));
-            break;
-          case 'blue':
-            console.log(chalk.blue(this.notecollection[i].getNote()));
-            break;
-          case 'yellow':
-            console.log(chalk.yellow(this.notecollection[i].getNote()));
-            break;
-        default:
-        console.log(this.notecollection[i].getNote());
-      }
-    } 
+    if(this.findNote(title)) {
+      readFile(`./${this.userName}/${title}.json`, (err, data) => {
+        if(!err) {
+          const info = JSON.parse(data.toString());
+          switch (info.colour) {
+            case 'red':
+              console.log(chalk.red(`\n${info.title}\n${info.body}\n`));
+              break;
+            case 'green':
+              console.log(chalk.green(`\n${info.title}\n${info.body}\n`));
+              break;
+            case 'blue':
+              console.log(chalk.blue(`\n${info.title}\n${info.body}\n`));
+              break;
+            case 'yellow':
+              console.log(chalk.yellow(`\n${info.title}\n${info.body}\n`));
+              break;
+            default:
+              console.log(`\n${info.title}\n${info.body}\n`);
+          }
+        }
+      });
+    } else {
+      console.log(chalk.red('No existe una nota con este título'));
+    }
   }
-  console.log(chalk.red('No existe una nota con este título'));
+
+  /**
+   * @brief Get user name
+   * @return string with de user name
+   */
+  getUserName(): string {
+    return this.userName;
   }
 }
