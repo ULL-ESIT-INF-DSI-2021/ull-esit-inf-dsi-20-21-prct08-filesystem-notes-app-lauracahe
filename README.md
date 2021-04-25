@@ -26,6 +26,8 @@ A modo de conclusión, me ha resultado muy interesante la práctica para poner e
 
 [![Coverage Status](https://coveralls.io/repos/github/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/badge.svg?branch=master)](https://coveralls.io/github/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe?branch=master)
 
+[![Coveralls](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/actions/workflows/coveralls.yml/badge.svg)](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/actions/workflows/coveralls.yml)
+
 ## 6. Referencias
 1. [Guión práctica 8](https://campusingenieriaytecnologia.ull.es/mod/assign/view.php?id=290092)
 2. [Yargs](https://www.npmjs.com/package/yargs)
