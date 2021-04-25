@@ -1,8 +1,8 @@
-import * as fs from 'fs';
-import * as chalk from 'chalk';
 import * as yargs from 'yargs';
 import {Note} from './note';
 import {Collection} from './collection';
+
+const spawn = require('child_process').spawn;
 
 /**
  * @brief Command that allow us to add a note from a user into his note collection
@@ -37,21 +37,17 @@ yargs.command({
       if(typeof argv.title === 'string'){
         if(typeof argv.body === 'string'){
           if(typeof argv.colour === 'string'){
-            const filename = argv.title.toLowerCase().replace(/[^A-Za-z0-9]+(.)/g, (LowLine, chr) => chr.toUpperCase());
-            const path: string = './users/' + argv.user;
-            const notePath: string = path + '/' + filename + '.json';
             const newNote = new Note(argv.title, argv.body, argv.colour);
+            let output: string = '';
+            let ls = spawn('ls');
+            ls.stdout.on('data', (data: any) => output += data);
+            let split = output.split(/\s+/);
+            let index = split.findIndex((temp) => temp === argv.user);
             const aux = new Collection(argv.user);
-            if (fs.existsSync(path)) {
-              if (!fs.existsSync(notePath)) {
-                aux.addNote(newNote);
-                console.log(chalk.green('New note added!'));
-              }
-            } else {
-              fs.mkdirSync(path);
-              aux.addNote(newNote);
-              console.log(chalk.green('New note added!')); 
-            } 
+            if (index === -1) {
+              spawn('mkdir', [`${argv.user}`]);
+            }
+            aux.addNote(newNote);
           }
         }
       } 
@@ -67,24 +63,15 @@ yargs.command({
   describe: 'List all titles of the note colecction of a particular user',
   builder: {
     user: {
-      describe: 'Username',
+      describe: 'User name',
       demandOption: true,
       type: 'string',
     },
   },
-  handler(argv) {
+  handler(argv: { user: string; }) {
     if (typeof argv.user === 'string') {
-      const ls = spawn('ls');
-      let output: string = '';
-      ls.stdout.on('data', (data: any) => output += data);
-      const split = output.split(/\s+/);
-      const i = split.findIndex((temp) => temp === argv.user);
-      const aux = new Collection(argv.user);
-      if (i == -1) {
-        console.log(chalk.red('El usuario no existe'));
-      } else {
-        aux.titles();
-      }
+      const temp = new Collection(argv.user);
+      temp.titles();
     }
   },
 });
@@ -97,7 +84,7 @@ yargs.command({
   describe: 'Read a particular note of the user specified',
   builder: {
     user: {
-      describe: 'Username',
+      describe: 'User name',
       demandOption: true,
       type: 'string',
     },
@@ -107,18 +94,11 @@ yargs.command({
       type: 'string',
     },
   },
-  handler(argv) {
-    if (typeof argv.title === 'string' && typeof argv.user === 'string') {
-      const ls = spawn('ls');
-      let output = '';
-      ls.stdout.on('data', (data: any) => output += data);
-      const split = output.split(/\s+/);
-      const i = split.findIndex((temp) => temp === argv.user);
-      const aux = new Collection(argv.user);
-      if (i == -1) {
-        console.log(chalk.red('El usuario no existe'));
-      } else {
-        aux.readNote(argv.title);
+  handler(argv: { user: string; title: string; }) {
+    if(typeof argv.user === 'string'){
+      if(typeof argv.title === 'string'){
+        const temp = new Collection(argv.user);
+        temp.readNote(argv.title);
       }
     }
   },
@@ -132,7 +112,7 @@ yargs.command({
   describe: 'Removes a note of the user',
   builder: {
     user: {
-      describe: 'Username',
+      describe: 'User name',
       demandOption: true,
       type: 'string',
     },
@@ -142,62 +122,11 @@ yargs.command({
       type: 'string',
     },
   },
-  handler(argv) {
-    if (typeof argv.title === 'string' && typeof argv.user === 'string') {
-      const ls = spawn('ls');
-      let output = '';
-      ls.stdout.on('data', (data: any) => output += data);
-      const split = output.split(/\s+/);
-      const i = split.findIndex((temp) => temp === argv.user);
-      const aux = new Collection(argv.user);
-      if (i == -1) {
-        console.log(chalk.red('El usuario no existe'));
-      } else {
-        aux.removeNote(argv.title);
-      }
-    }
-  },
-});
-
-/**
- * @brief Command that allow us to edit the body of a note
- */
-yargs.command({
-  command: 'edit',
-  describe: 'Edit a note',
-  builder: {
-    user: {
-      describe: 'Note user',
-      demandOption: true,
-      type: 'string',
-    },
-    title: {
-      describe: 'Note title',
-      demandOption: true,
-      type: 'string',
-    },
-    body: {
-      describe: 'Note title',
-      demandOption: true,
-      type: 'string',
-    },
-  },
-  handler(argv) {
-    if (typeof argv.user === 'string') {
-      if (typeof argv.title === 'string') {
-        if (typeof argv.body === 'string') {
-          const path: string = './users/' + argv.user;
-          const title = argv.title.toLowerCase().replace(/[^A-Za-z0-9]+(.)/g, (LowLine, chr) => chr.toUpperCase());
-          const notePath: string = path + '/' + title + '.json';
-
-          if (fs.existsSync(notePath)) {
-            const data = JSON.parse(fs.readFileSync(notePath, 'utf8'));
-            fs.writeFileSync(notePath, new Note(argv.user, argv.title, argv.body, data.color).write());
-            console.log(chalk.green('Note edited!'));
-          } else {
-            console.log(chalk.red('Note not found'));
-          }
-        }
+  handler(argv: { user: string; title: string; }) {
+    if(typeof argv.user === 'string'){
+      if(typeof argv.title === 'string'){
+        const temp = new Collection(argv.user);
+        temp.removeNote(argv.title);
       }
     }
   },

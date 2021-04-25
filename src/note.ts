@@ -45,7 +45,7 @@ export class Note {
 
   /**
    * @brief Get body of the note
-   * @brief string with the body
+   * @return string with the body
    */
   getBody(): string {
     return this.body;
@@ -61,17 +61,9 @@ export class Note {
 
   /**
    * @brief Get note
+   * @return Return all note
    */
   getNote(): string {
-    return `${this.title}\n${this.body}\n${this.colour}`;
-  }
-
-  /**
-   * 
-   * @brief Modidy the note
-   * @param newText New text to modify the note
-   */
-  change(newText: string) {
-    this.body = newText;
+    return `\"Title\": \"${this.title}\",\n\"Cuerpo\": \"${this.body}\",\n\"Colour\": \"${this.colour}\"`;
   }
 }

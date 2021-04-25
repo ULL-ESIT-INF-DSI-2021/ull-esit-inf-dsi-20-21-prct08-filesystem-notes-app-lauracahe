@@ -1,6 +1,6 @@
-import {Note} from './note';
 import {spawn} from 'child_process';
-import {readFile, writeFile} from 'fs';
+import {readFile, writeFile, existsSync, readdirSync} from 'fs';
+import {Note} from './note';
 
 const chalk = require('chalk');
 
@@ -21,16 +21,7 @@ export class Collection {
    * @return boolean
    */
   findNote(title: string): boolean {
-    let output: string = '';
-    let ls = spawn('ls', [`./${this.userName}`]);
-    ls.stdout.on('data', (data) => output += data);
-    let split = output.split(/\s+/);
-    for(let i = 0; i < split.length; i++){
-      if(split[i] == `${title}.json`){
-        return true;
-      }
-    }
-    return false;
+    return (existsSync(`./${this.userName}/${title}.json`)) ? true : false; 
   }
 
   /**
@@ -68,7 +59,7 @@ export class Collection {
       console.log(chalk.red('No existe una nota con este título'));
     }
   }
-
+  
   /**
    * 
    * @brief Remove note of the collection
@@ -79,7 +70,7 @@ export class Collection {
       spawn('rm', [`./${this.userName}/${title}.json`]);
       console.log(chalk.green('Se ha eliminado la nota'));
     } else {
-    console.log(chalk.red('No existe una nota con este título'));
+      console.log(chalk.red('No existe una nota con este título'));
     }
   }
 
@@ -87,34 +78,34 @@ export class Collection {
    * @brief List all titles of the note colecction
    */
   titles() {
-    let output: string = '';
-    let ls = spawn('ls', [`./${this.userName}`]);
-    ls.stdout.on('data', (data) => output += data);
-    let split = output.split(/\s+/);
-    for(let i = 0; i < split.length; i++) {
-      readFile(`./${this.userName}/${split[i]}`, (err, data) => {
-        if(!err) {
-          const d = JSON.parse(data.toString());
-          switch (d.colour) {
-            case 'red':
-              console.log(chalk.red(d.title));
-              break;
-            case 'green':
-              console.log(chalk.green(d.title));
-              break;
-            case 'blue':
-              console.log(chalk.blue(d.title));
-              break;
-            case 'yellow':
-              console.log(chalk.yellow(d.title));
-              break;
-            default:
-              console.log(d.title);
-          }
-        }
-      });
+    if(existsSync(`./${this.userName}`)) {
+      let files = readdirSync(`./${this.userName}`);
+      for(let i = 0; i < files.length; i++) {
+        readFile(`./${this.userName}/${files[i]}`, (err, data) => {
+          if(!err) {
+            const aux = JSON.parse(data.toString());
+            switch (aux.colour) {
+              case 'red':
+                console.log(chalk.red(aux.title));
+                break;
+              case 'green':
+                console.log(chalk.green(aux.title));
+                break;
+              case 'blue':
+                console.log(chalk.blue(aux.title));
+                break;
+              case 'yellow':
+                console.log(chalk.yellow(aux.title));
+                break;
+              default:
+                console.log(aux.title);
+            }
+          } else {
+            console.log(chalk.red('Error al leer el fichero'));
+            }
+        });
+      }
     }
-    console.log(chalk.red('Error de lectura del fichero'));
   }
 
   /**
@@ -124,22 +115,22 @@ export class Collection {
     if(this.findNote(title)) {
       readFile(`./${this.userName}/${title}.json`, (err, data) => {
         if(!err) {
-          const info = JSON.parse(data.toString());
-          switch (info.colour) {
+          const aux = JSON.parse(data.toString());
+          switch (aux.colour) {
             case 'red':
-              console.log(chalk.red(`\n${info.title}\n${info.body}\n`));
+              console.log(chalk.red(`\n${aux.title}\n${aux.body}\n`));
               break;
             case 'green':
-              console.log(chalk.green(`\n${info.title}\n${info.body}\n`));
+              console.log(chalk.green(`\n${aux.title}\n${aux.body}\n`));
               break;
             case 'blue':
-              console.log(chalk.blue(`\n${info.title}\n${info.body}\n`));
+              console.log(chalk.blue(`\n${aux.title}\n${aux.body}\n`));
               break;
             case 'yellow':
-              console.log(chalk.yellow(`\n${info.title}\n${info.body}\n`));
+              console.log(chalk.yellow(`\n${aux.title}\n${aux.body}\n`));
               break;
             default:
-              console.log(`\n${info.title}\n${info.body}\n`);
+              console.log(`\n${aux.title}\n${aux.text}\n`);
           }
         }
       });
