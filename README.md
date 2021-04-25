@@ -15,7 +15,7 @@ Cabe destacar que solo se podrá interactuar con la aplicación desde la línea 
 ## 3. Desarrollo del proyecto
 
 ## 4. Ejemplos de uso de la aplicación
-![Error al cargar la imagen del ejemplo]()
+![Error al cargar la imagen del ejemplo](https://raw.githubusercontent.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct08-filesystem-notes-app-lauracahe/master/images/ejemplos.png)
 
 En el caso de listar las diferentes notas y leerlas no entiendo qué es lo que sucede ya que, en ocasiones muestra y lista todas las notas de la carpeta del respectivo usuario, sin embargo, hay veces que no lo hace y muestra un "undefined". Detallar que sigo el mismo procedimiento que en los demás comandos. 
 
