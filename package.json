@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha",
     "start": "tsc-watch --onSuccess \"node dist/index.js\"",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls && rm -rf .nyc_output",
+    "coverage": "nyc npm test && nyc report --reporter=lcov",
     "eslint-init": "eslint --init",
     "doc": "typedoc"
   },
